@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Small VLA Survey: robot policies under one billion parameters</title>
+  <meta name="description" content="Twenty-seven vision-language-action robot policies under one billion parameters, compared on size, benchmarks, architecture, training recipe and compute.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234B2E0F'/%3E%3Ccircle cx='9' cy='22' r='3' fill='%230e8a6e'/%3E%3Ccircle cx='16' cy='15' r='4' fill='%23c4651c'/%3E%3Ccircle cx='23.5' cy='9' r='3' fill='%23F4C15D'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#compare">Skip to the comparison table</a>
+
+  <header class="topbar">
+    <div class="wrap topbar__in">
+      <a class="brand" href="#top" aria-label="Small VLA Survey, back to top">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" class="brand__bg"/><circle cx="9" cy="22" r="3" class="brand__a"/><circle cx="16" cy="15" r="4" class="brand__b"/><circle cx="23.5" cy="9" r="3" class="brand__c"/></svg>
+        <span>Small VLA Survey</span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#size">Size vs score</a>
+        <a href="#findings">Findings</a>
+        <a href="#compare">Comparison</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#training">Training</a>
+        <a href="#caveats">Caveats</a>
+      </nav>
+      <a class="nav__cta" href="https://khanhnd61-vr.github.io/">Home ↗</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero__in">
+        <p class="eyebrow">Sub-billion robot policies, compared</p>
+        <h1>How small can a <span class="accent-warm">VLA</span> get and still <span class="accent">solve LIBERO</span>?</h1>
+        <p class="lede">Twenty-seven vision-language-action papers under one billion parameters, each read in full. Click a model name in any table for its summary, training recipe and compute cost.</p>
+        <dl class="stats">
+          <div class="stat--main"><dt>Papers</dt><dd>27</dd></div>
+          <div><dt>Parameter range</dt><dd>0.54M–947M</dd></div>
+          <div><dt>Best LIBERO</dt><dd>98.6%</dd></div>
+          <div><dt>LIBERO at 0.54M</dt><dd>95.05%</dd></div>
+          <div><dt>Pretrain on robot data</dt><dd>8 of 27</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section" id="size" aria-labelledby="size-title">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="kicker">// size vs score</p>
+          <h2 id="size-title">LIBERO success against model size</h2>
+        </header>
+        <div class="win win--chart">
+          <div class="win__bar">
+            <span class="win__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win__name">libero vs parameters</span>
+            <span class="lgd"><span><i class="sw vlm"></i>Uses a VLM backbone</span><span><i class="sw novlm"></i>No VLM</span></span>
+          </div>
+          <div class="win__body"><div class="chart" id="chart"></div></div>
+        </div>
+        <p class="caption">Average success over the four LIBERO suites, as reported by each paper. Protocols differ between papers, so small gaps are not meaningful. Models whose papers give no four-suite LIBERO average are absent.</p>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="findings" aria-labelledby="findings-title">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="kicker">// findings</p>
+          <h2 id="findings-title">What the papers show</h2>
+        </header>
+        <ul class="cards">
+<li><b>Size barely predicts the LIBERO score.</b> Nine models between 0.99M and 947M report 96.7 to 98.6. SimVLA (about 800M) has the highest and the 161M NanoVLA-S the lowest (78.7).</li>
+    <li><b>Models without a VLM match those with one on LIBERO.</b> TurboVLA, SLIM, CoRP and MINERVA all reach about 97 with no VLM backbone.</li>
+    <li><b>The harder benchmarks separate them.</b> On LIBERO-plus, SLIM holds 77.45 and Evo-Depth 69.6, while MINERVA drops to 46–56. On LIBERO-PRO, SUREFlow and SimVLA both land near 49. Only five papers report any robustness benchmark.</li>
+    <li><b>Eight of the 27 pretrain on robot data</b> (X-VLA, FLOWER, SwiftVLA, Dita, HyperVLA, SmolVLA, Octo, and MoDE optionally). The rest train directly on benchmark demonstrations, starting from pretrained vision or language weights.</li>
+    <li><b>Headline sizes are not counted the same way.</b> SimVLA, LLaVA-VLA and VLA-Adapter quote the VLM backbone alone. SLIM, BAKU and Octo leave out a frozen text encoder. HyperVLA and MoDE headline only the parameters active per step.</li>
+    <li><b>Training cost is rarely reported, and spans three orders of magnitude.</b> At one end: MINERVA (about 2 h on one GPU), Patch Policy (6.5 h on one L40S) and BAKU (10.5 h on one A4000). At the other: X-VLA (64 A100s for 4 days) and DynamicVLA (32 A100s for two weeks).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="compare" aria-labelledby="compare-title">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="kicker">// comparison</p>
+          <h2 id="compare-title">Size and benchmark results</h2>
+        </header>
+        <div class="table-card"><table class="results" id="main"></table></div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="arch-section" aria-labelledby="arch-title">
+      <div class="wrap" id="architecture">
+        <header class="section__head">
+          <p class="kicker">// architecture</p>
+          <h2 id="arch-title">Which model fills each role</h2>
+        </header>
+        <div class="table-card"><table class="results wide" id="arch"></table></div>
+      </div>
+    </section>
+
+    <section class="section" id="training" aria-labelledby="training-title">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="kicker">// training</p>
+          <h2 id="training-title">Training recipe and compute</h2>
+        </header>
+        <div class="table-card"><table class="results wide" id="recipe"></table></div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="caveats" aria-labelledby="caveats-title">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="kicker">// caveats</p>
+          <h2 id="caveats-title">Before comparing rows</h2>
+        </header>
+        <ul class="cards">
+<li><b>LIBERO protocols differ.</b> FLOWER fine-tunes per suite, and its pretraining mix already contains LIBERO-10 and LIBERO-Goal. TurboVLA, CoRP, MINERVA and MicroVLA train one model on all four suites. Evo-1, Evo-Depth, VLA-Adapter and SUREFlow do not say.</li>
+    <li><b>Trial counts differ.</b> Most use 50 trials per task; SmolVLA, Evo-1 and FabriVLA use 10.</li>
+    <li><b>MINERVA cannot take new instructions.</b> It conditions on a task ID, and its own probe shows that permuting the IDs drops LIBERO from 96.75% to 6.5%.</li>
+    <li><b>MetaWorld averages are over four difficulty tiers</b>, not over the 50 tasks. FabriVLA's 90.0 is also the best checkpoint (93k of 100k steps), chosen on the evaluation itself.</li>
+    <li><b>Octo reports only real-robot results.</b> Any LIBERO number for Octo comes from another paper; MicroVLA's baseline table lists it at 75.1.</li>
+    <li><b>A blank LIBERO cell can hide a partial result.</b> The column is the four-suite average. MoDE reports LIBERO-10 (0.92) and LIBERO-90 (0.91); BAKU reports LIBERO-10 (0.86) and LIBERO-90 (0.90); Patch Policy reports LIBERO-Goal only (0.96 to 0.98, goal-image conditioned); VLA-AD reports three suites (mean 94.5 with a π0.5 teacher).</li>
+    <li><b>Robot pretraining separates the top rows.</b> X-VLA, FLOWER, SwiftVLA, Dita and HyperVLA fine-tune from a robot-pretrained checkpoint; SimVLA, SLIM, XS-VLA, TurboVLA, CoRP and MINERVA do not.</li>
+    <li><b>More small or unstated trial counts.</b> XS-VLA uses 10 episodes per task; VLA-AD, MoDE and BAKU use 10 to 20. SimVLA, X-VLA, SwiftVLA and Dita do not state trials per task.</li>
+    <li><b>NanoVLA also has a routed variant</b> (84.1 on LIBERO) that picks the small or large model per task. Its "296M" is an invocation-weighted average, and running it needs both models, so it is not in the table.</li>
+    <li><b>TinyVLA's headline results belong to its 1.3B variant.</b> The two sub-billion variants have only a 5-task real-robot result (23.3% and 77.4%).</li>
+    <li><b>DynamicVLA is evaluated only on its own dynamic-object benchmark</b> (47.06% average), so every benchmark cell is empty.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div hidden>
+      <nav id="jump" aria-label="Papers"></nav>
+      <div id="papers"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__in">
+      <div>
+        <a class="brand brand--foot" href="#top"><svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" class="brand__bg"/><circle cx="9" cy="22" r="3" class="brand__a"/><circle cx="16" cy="15" r="4" class="brand__b"/><circle cx="23.5" cy="9" r="3" class="brand__c"/></svg><span>Small VLA Survey</span></a>
+        <p class="footer__note">Every number is the paper's own reported result for its own model. Compiled November 2026.</p>
+      </div>
+      <div class="footer__links">
+        <div><a href="https://khanhnd61-vr.github.io/">Home</a><a href="https://khanhnd61-vr.github.io/vla-hub/">VLA Hub</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
