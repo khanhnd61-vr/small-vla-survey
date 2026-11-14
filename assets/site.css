@@ -612,8 +612,15 @@ tr.detail > td { padding: 4px 14px 20px 36px; background: var(--bg); }
 .results td.name { font-family: var(--font-display); font-weight: 600; font-size: .95rem; white-space: nowrap; color: var(--primary); }
 .results td.num { white-space: nowrap; }
 .results td.empty { display: table-cell; padding: 10px 14px; color: var(--line-strong); text-align: right; }
-.results.wide td { min-width: 130px; color: var(--ink-soft); font-size: .84rem; line-height: 1.5; }
-.results.wide td.name { min-width: 0; }
+.results.wide td { color: var(--ink-soft); font-size: .84rem; line-height: 1.5; }
+#main td:nth-child(2) { white-space: nowrap; }
+#arch td:nth-child(2), #arch td:nth-child(3) { white-space: nowrap; }
+#arch td:nth-child(4), #arch td:nth-child(5) { min-width: 110px; }
+#arch td:nth-child(6) { min-width: 160px; } #arch td:nth-child(7) { min-width: 130px; }
+#arch td:nth-child(8), #arch td:nth-child(9) { min-width: 70px; }
+#recipe td:nth-child(2), #recipe td:nth-child(3) { min-width: 150px; }
+#recipe td:nth-child(4) { min-width: 180px; } #recipe td:nth-child(5) { min-width: 200px; } #recipe td:nth-child(6) { min-width: 150px; }
+table.wide thead th { white-space: normal; vertical-align: bottom; }
 .noted { border-bottom: 1px dotted var(--support); cursor: help; }
 .mlink { all: unset; cursor: pointer; text-decoration: underline; text-decoration-color: var(--secondary); text-underline-offset: 3px; }
 .mlink:hover { color: var(--support); }
